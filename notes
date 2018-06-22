@@ -1,0 +1,5 @@
+This is the latest version of my project for the class, updated at the end of the Spring 2017 semester. As configured, the main class (Compiler.java) is set to generate instructions for the mJAM virtual machine, which then runs the instructions and generates output. To do this, run Compiler.java on a sample file ending in .java, and make sure all supporting files are present. 
+
+Keep in mind this runs on a small subset of the Java language. Since I took the course a year before uploading all of this, the best specification I can find for the language is here (http://www.cs.tufts.edu/~sguyer/classes/comp181-2006/minijava.html).
+
+If you'd like to test just the syntactic and contextual analysis of the compiler simply comment out lines 139-144 in Compiler.java to disable code generation. Then, run the compiler on a sample program ending in .java and the compiler will either validate the program is within miniJava standards or give an error message stating why it is not.
