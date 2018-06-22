@@ -3,3 +3,36 @@ This is the latest version of my project for the class, updated at the end of th
 Keep in mind this runs on a small subset of the Java language. Since I took the course a year before uploading all of this, the best specification I can find for the language is here (http://www.cs.tufts.edu/~sguyer/classes/comp181-2006/minijava.html).
 
 If you'd like to test just the syntactic and contextual analysis of the compiler simply comment out lines 139-144 in Compiler.java to disable code generation. Then, run the compiler on a sample program ending in .java and the compiler will either validate the program is within miniJava standards or give an error message stating why it is not.
+
+
+Scope of my compiler:
+- Syntactic analyzer has no major faults that I know of.
+- Contextual analysis fails in a few places:
+	1. Error is thrown on pass328.java of pa3_tests. This is because in this test there is a variable declaration as the sole
+	   statement of a branch statement (if statement). I think it fails this test because in it there is also an "else" statement,
+	   and maybe that counts as another statement besides the variable delcaration? I'm not sure but that's my best guess.
+	2. On some occasions, the Identification phase throws duplicate error messages for the same identification error.
+	3. As demonstrated in pass324.java of pa3_tests, contextual analysis fails. In this test it fails to differentiate between a
+	   local variable (class type) p, and that instance's method also called p().
+
+- Code generation fails in many places. I fixed a fair few problems from my submission of pa4, but there are still many left unpatched.
+  My code generator is functional with relatively small programs. However, once the program gets larger and more complex (with IxQRefs and
+  more complex and interlinked data structures), my code generator quickly loses track and fails with invalid heap references or null
+  pointer exceptions and such.
+
+Changes to AST classes:
+- Added NullType, extends ClassType
+- Added NullLiteral, extends Terminal
+- Added UnsupportedType
+- Added ErrorType
+- TypeDenoter: added public field "String spelling"
+- ArrayType: added FieldDeclList for "length" FieldDecl
+- VarDecl: added public field "boolean initialized"
+- Reference: added public field "Identifier id", set it to null for thisRef
+	     added public field "Declaration decl"
+- Declaration: replaced String in constructor with Identifier
+	       added public field "RuntimeEntityDescriptor RED"
+- Identifier: added public field "Declaration decl"
+- MethodDecl: added public field "Expression returnExpr"
+- IxQRef: modified to be constructed with QualifiedRef
+- TypeKind: added NULL, UNSUPPORTED, ERROR, and STRING to enum
